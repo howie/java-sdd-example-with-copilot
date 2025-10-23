@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MYSQL_URL=jdbc:mysql://db:3306/thsr_booking
+      - MYSQL_USER=thsr_user
+      - MYSQL_PASSWORD=thsr_password
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=thsr_booking
+      - MYSQL_USER=thsr_user
+      - MYSQL_PASSWORD=thsr_password
+      - MYSQL_ROOT_PASSWORD=root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
